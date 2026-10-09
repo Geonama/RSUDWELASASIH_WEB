@@ -1,0 +1,23 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule "(^|/)\.(git|svn|hg|aws|codex|agents)(/|$)" - [F,L,NC]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header unset X-Frame-Options
+    Header unset X-Content-Type-Options
+    Header unset Referrer-Policy
+    Header unset Permissions-Policy
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "same-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+<FilesMatch "(^\.|\.(sql|md|log|ini|env|bak|old|orig|save|swp|zip|gz|7z|cjs)$)">
+    Require all denied
+</FilesMatch>

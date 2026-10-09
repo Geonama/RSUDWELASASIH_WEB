@@ -1,0 +1,66 @@
+.transit-map {
+    margin-bottom: 24px;
+    padding: 22px 24px;
+    border: 1px solid var(--app-border);
+    border-radius: 20px;
+    background: var(--app-panel);
+    box-shadow: var(--app-shadow);
+}
+.transit-map-symbols { position: absolute; overflow: hidden; pointer-events: none; }
+.transit-map-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.transit-map-heading h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+.transit-map-heading p { margin: 5px 0 0; color: var(--app-muted, var(--gray-500)); font-size: .75rem; }
+.transit-map-meta { color: var(--app-muted, var(--gray-500)); font-size: .6875rem; text-align: right; }
+.transit-map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 16px 0 18px; font-size: .6875rem; }
+.transit-map-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.transit-legend-dot { width: 9px; height: 9px; border-radius: 3px; }
+.transit-legend-empty { background: #238256; }
+.transit-legend-occupied { background: #d04b65; }
+.transit-legend-ready { background: #4387d4; }
+.transit-legend-inactive { background: #8798a6; }
+.transit-map-rooms { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.transit-room { min-width: 0; padding: 13px 12px 12px; border: 1px solid var(--app-line, var(--gray-200)); border-radius: 14px; background: var(--app-input, #f7fbfd); }
+.transit-room-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 8px; }
+.transit-room-heading h3 { margin: 0; font-size: .75rem; font-weight: 600; }
+.transit-room-heading > span { color: var(--app-muted, var(--gray-500)); font-size: .625rem; white-space: nowrap; }
+.transit-room-front { height: 8px; width: 74%; margin: 13px auto 15px; border-top: 2px solid var(--app-input-border, #b9cdd8); border-radius: 50%; opacity: .7; }
+.transit-room-seats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: 10px 8px; margin: 0 auto; padding: 0; max-width: 184px; list-style: none; }
+.transit-room-seats-small { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 120px; }
+.transit-seat { --seat-fill: #e7edf2; --seat-ink: #586773; --seat-line: #8798a6; display: grid; justify-items: center; align-content: start; min-width: 0; color: var(--seat-ink); }
+.transit-seat--kosong { --seat-fill: #d7f1e3; --seat-ink: #146443; --seat-line: #238256; }
+.transit-seat--terisi { --seat-fill: #ffe0e3; --seat-ink: #9b253b; --seat-line: #d04b65; }
+.transit-seat--siap_transfer { --seat-fill: #dcecff; --seat-ink: #1759a3; --seat-line: #4387d4; }
+.transit-seat-shape { position: relative; display: block; width: 100%; max-width: 54px; aspect-ratio: 1; }
+.transit-seat-icon { display: block; width: 100%; height: 100%; color: var(--seat-line); fill: var(--seat-fill); stroke: var(--seat-line); }
+.transit-seat-code { position: absolute; top: 60%; left: 50%; width: 78%; transform: translate(-50%, -50%); color: var(--seat-ink); font-size: .625rem; font-weight: 700; line-height: 1.1; text-align: center; overflow-wrap: anywhere; }
+.transit-seat-status { max-width: 70px; min-height: 25px; margin-top: 3px; color: var(--seat-ink); font-size: .5625rem; line-height: 1.35; text-align: center; }
+@media screen {
+    html[data-theme="dark"] .transit-seat { --seat-fill: #263342; --seat-ink: #b8c7d4; --seat-line: #6c8094; }
+    html[data-theme="dark"] .transit-seat--kosong { --seat-fill: #193e33; --seat-ink: #9cf0bf; --seat-line: #54bf8b; }
+    html[data-theme="dark"] .transit-seat--terisi { --seat-fill: #4b2633; --seat-ink: #ffc0cd; --seat-line: #ec8199; }
+    html[data-theme="dark"] .transit-seat--siap_transfer { --seat-fill: #203d5d; --seat-ink: #b3dcff; --seat-line: #77baff; }
+    html[data-theme="dark"] .transit-legend-empty { background: #54bf8b; }
+    html[data-theme="dark"] .transit-legend-occupied { background: #ec8199; }
+    html[data-theme="dark"] .transit-legend-ready { background: #77baff; }
+}
+@media (max-width: 1280px) { .transit-map-rooms { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 820px) { .transit-map { padding: 20px 18px; } }
+@media (max-width: 620px) {
+    .transit-map-rooms { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .transit-map-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+    .transit-map-meta { text-align: left; }
+    .transit-map { padding: 18px 14px; }
+    .transit-room { padding: 12px 9px; }
+}
+@media (max-width: 420px) {
+    .transit-map-legend { gap: 8px 12px; }
+    .transit-room-seats { gap: 8px 5px; }
+    .transit-seat-status { display: none; }
+    .transit-room-front { margin-bottom: 10px; }
+}
+@media print {
+    .transit-map { background: #fff; box-shadow: none; break-inside: avoid; }
+    .transit-map-rooms { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .transit-room { background: #fff; }
+    .transit-map, .transit-seat-icon, .transit-legend-dot { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}

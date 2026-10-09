@@ -1,0 +1,35 @@
+# Local configuration and runtime files
+.env
+.env.*
+!.env.example
+*.log
+/logs/*
+!/logs/.gitkeep
+!/logs/.htaccess
+/backups/
+/database/backups/
+*.sql
+!/database/schema.sql
+*.bak
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+*.p12
+*.pfx
+/.aws/
+/.codex/
+/.agents/
+
+# Dependencies and generated output
+node_modules/
+/test-results/
+/playwright-report/
+*.xlsx
+*.zip
+*.7z
+*.rar
+
+# Operating system files
+Thumbs.db
+.DS_Store

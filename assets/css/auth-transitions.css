@@ -1,0 +1,138 @@
+:root {
+    --auth-enter-x: 22px;
+    --auth-exit-x: -22px;
+}
+
+:root[data-auth-page="login"] {
+    --auth-enter-x: -22px;
+    --auth-exit-x: 22px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+
+    .auth-background { view-transition-name: auth-background; }
+    .auth-overlay { view-transition-name: auth-overlay; }
+    .auth-card { view-transition-name: auth-panel; }
+    .auth-affiliations { view-transition-name: auth-affiliations; }
+    .auth-brand .etransit-logo { view-transition-name: auth-logo; }
+    .auth-brand > div { view-transition-name: auth-brand; }
+    .auth-footer { view-transition-name: auth-footer; }
+
+    /* Separate snapshots keep the two forms from stretching as the glass panel resizes. */
+    .auth-shell-login .stack-form { view-transition-name: auth-login-form; }
+    .auth-shell-register .stack-form { view-transition-name: auth-register-form; }
+
+    .auth-card {
+        animation: auth-arrive 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .auth-transition-native .auth-card {
+        animation: none;
+    }
+
+    ::view-transition {
+        pointer-events: none;
+    }
+
+    ::view-transition-group(*) {
+        animation-duration: 480ms;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    ::view-transition-group(auth-panel) {
+        border-radius: 28px;
+    }
+
+    ::view-transition-image-pair(auth-panel) {
+        isolation: auto;
+    }
+
+    ::view-transition-old(auth-panel),
+    ::view-transition-new(auth-panel) {
+        border-radius: 28px;
+        backdrop-filter: blur(22px) saturate(1.1);
+        -webkit-backdrop-filter: blur(22px) saturate(1.1);
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-old(auth-background),
+    ::view-transition-old(auth-overlay) {
+        animation: none;
+        opacity: 0;
+    }
+
+    ::view-transition-new(root),
+    ::view-transition-new(auth-background),
+    ::view-transition-new(auth-overlay) {
+        animation: none;
+    }
+
+    ::view-transition-old(auth-panel),
+    ::view-transition-old(auth-affiliations),
+    ::view-transition-old(auth-logo),
+    ::view-transition-old(auth-brand),
+    ::view-transition-old(auth-footer) {
+        animation: auth-snapshot-fade-out 240ms ease-out both;
+        mix-blend-mode: normal;
+    }
+
+    ::view-transition-new(auth-panel),
+    ::view-transition-new(auth-affiliations),
+    ::view-transition-new(auth-logo),
+    ::view-transition-new(auth-brand),
+    ::view-transition-new(auth-footer) {
+        animation: auth-snapshot-fade-in 360ms ease-out both;
+        mix-blend-mode: normal;
+    }
+
+    ::view-transition-old(auth-login-form),
+    ::view-transition-old(auth-register-form) {
+        animation: auth-form-out 160ms ease-in both;
+        mix-blend-mode: normal;
+    }
+
+    ::view-transition-new(auth-login-form),
+    ::view-transition-new(auth-register-form) {
+        animation: auth-form-in 340ms 100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        mix-blend-mode: normal;
+    }
+
+    .auth-transition-leaving .auth-card {
+        animation: auth-depart 200ms ease-in both;
+        pointer-events: none;
+    }
+
+    .auth-transition-leaving .auth-footer {
+        animation: auth-snapshot-fade-out 180ms ease-in both;
+    }
+}
+
+@keyframes auth-arrive {
+    from { opacity: 0; transform: translateY(16px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes auth-depart {
+    to { opacity: 0; transform: translateY(-10px) scale(0.985); }
+}
+
+@keyframes auth-snapshot-fade-out {
+    to { opacity: 0; }
+}
+
+@keyframes auth-snapshot-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes auth-form-out {
+    to { opacity: 0; transform: translateX(var(--auth-exit-x)); filter: blur(2px); }
+}
+
+@keyframes auth-form-in {
+    from { opacity: 0; transform: translateX(var(--auth-enter-x)) translateY(6px); filter: blur(2px); }
+    to { opacity: 1; transform: translateX(0) translateY(0); filter: blur(0); }
+}

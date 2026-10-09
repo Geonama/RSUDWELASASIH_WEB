@@ -1,0 +1,58 @@
+/* Keep page layout and input responsive: animate only small sidebar elements. */
+@view-transition { navigation: none; }
+
+.app-glass .nav-menu { position: relative; isolation: isolate; }
+.app-glass .nav-menu a {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: none;
+}
+.app-glass .nav-label { flex: 1; min-width: 0; }
+.app-glass .nav-icon, .app-glass .nav-label, .app-glass .nav-cue { position: relative; z-index: 2; }
+.app-glass .nav-cue { width: 14px; height: 14px; flex: 0 0 auto; opacity: 0; transform: translateX(-3px); }
+.app-glass .nav-menu a:is(:hover, :focus-visible, .active, .nav-pending) .nav-cue { opacity: 0.8; transform: translateX(0); }
+.app-glass .nav-active-indicator {
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 43px;
+    border: 1px solid var(--app-border);
+    border-radius: 12px;
+    background: var(--app-active);
+    box-shadow: inset 3px 0 0 #429caa;
+    pointer-events: none;
+}
+.app-glass .nav-menu.nav-motion-ready a.active { background: transparent; border-color: transparent; box-shadow: none; }
+.app-glass .nav-menu a.nav-pending { color: var(--navy); border-color: var(--app-ring); }
+.app-glass .nav-click-ripple {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(66, 156, 170, 0.18), transparent 70%);
+    opacity: 0;
+}
+html[data-theme="dark"] .app-glass .nav-click-ripple { background: radial-gradient(circle, rgba(134, 232, 220, 0.22), transparent 70%); }
+
+@media screen and (prefers-reduced-motion: no-preference) {
+    .app-glass .nav-moving .nav-active-indicator { transition: transform 180ms ease-out; }
+    .app-glass .nav-cue { transition: opacity 140ms ease, transform 140ms ease-out; }
+    .app-glass .nav-click-ripple { animation: sidebar-ripple 240ms ease-out both; }
+    @media (hover: hover) and (pointer: fine) {
+        .app-glass .nav-icon { transition: transform 140ms ease-out; }
+        .app-glass .nav-menu a:hover .nav-icon { transform: translateY(-1px); }
+    }
+}
+
+@keyframes sidebar-ripple {
+    from { opacity: 0.85; transform: scale(0.1); }
+    to { opacity: 0; transform: scale(1.25); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-glass .nav-menu *, .app-glass .nav-menu *::after { animation: none !important; transition: none !important; }
+}
+@media print {
+    .nav-click-ripple, .nav-active-indicator { display: none; }
+}
